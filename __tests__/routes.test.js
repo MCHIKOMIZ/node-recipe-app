@@ -45,6 +45,15 @@ describe('Routes', () => {
     expect(response.body.view).toBe('home');
   });
 
+  test('POST /recipes should return 400 if title is empty', async () => {
+    const response = await request(app)
+      .post('/recipes')
+      .send({ title: '', ingredients: 'Some ingredients', method: 'Some method' });
+
+    expect(response.status).toBe(400);
+    expect(response.body.error).toBe('Title is required');
+  });
+
   test('POST /recipes should create a new recipe', async () => {
     const newRecipe = {
       title: 'New Test Recipe',
